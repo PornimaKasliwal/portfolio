@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cors({origin:FRONTEND_URL, credentials: true}))
 app.use(cookieParser())
 
-// app.use("/api/auth", require("./routes/user.routes"))
+app.use("/api/auth", require("./routes/user.routes.js"))
 app.use("/", (req, res) => {
     res.status(404).json({ message: "API Running Successfully 🚀" })
 })
