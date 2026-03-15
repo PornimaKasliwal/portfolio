@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { differenceInSeconds } = require("date-fns")
 const { PRODUCTION } = require("../utils/config")
+const { sendEmail } = require("../utils/email")
+const { otpTemplate } = require("../email-templates/otpTemplate")
 
 
 exports.sendOTP = asyncHandler(async (req, res) => {
@@ -20,6 +22,17 @@ exports.sendOTP = asyncHandler(async (req, res) => {
     const hashOTP = await bcrypt.hash(String(otp), 10)
 
     await User.findByIdAndUpdate(admin._id, { otp: hashOTP, otpSendOn: new Date() })
+
+    await sendEmail({
+        email: admin.email,
+        subject: "Login OTP",
+        message: otpTemplate({
+            name: admin.name,
+            otp,
+            sec: process.env.OTP_EXIPIREY,
+            min: process.env.OTP_EXIPIREY / 60,
+        })
+    })
 
     res.json({ message: "OTP Send Successfully" })
 })
