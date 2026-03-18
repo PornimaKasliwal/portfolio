@@ -1,9 +1,13 @@
-import React from 'react'
 
-const Experiencies = () => {
-  return (
-    <div>Experiencies</div>
-  )
-}
+const mongoose = require("mongoose")
 
-export default Experiencies
+module.exports = mongoose.model("experiences", new mongoose.Schema({
+role:{type:String, required:true},
+company:{type:String, required:true},
+period:{type:String, required:true},
+description:{type:String},
+responsibilities:{type:[String], required:true},
+order:{type:Number, default:0}
+},
+{timestamps:true}
+))

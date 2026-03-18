@@ -33,7 +33,7 @@ exports.sendOTP = asyncHandler(async (req, res) => {
             min: process.env.OTP_EXIPIREY / 60,
         })
     })
-
+console.log(otp)
     res.json({ message: "OTP Send Successfully" })
 })
 
